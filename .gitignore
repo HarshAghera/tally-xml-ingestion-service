@@ -1,0 +1,14 @@
+node_modules/
+data/
+*.db
+*.db-wal
+*.db-shm
+.env
+coverage/
+
+# Original assignment files (kept locally, not part of the submission)
+ASSIGNMENT.md
+ASSIGNMENT_BRIEF.md
+NORMALIZED_DATA_CONTRACT.md
+SUBMISSION_CHECKLIST.md
+fixtures/
