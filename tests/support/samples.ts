@@ -1,0 +1,186 @@
+// Inline sample documents, so the tests need no external files.
+
+export const RECEIPT = `<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE>
+  <HEADER><VERSION>1</VERSION><STATUS>1</STATUS></HEADER>
+  <BODY><DATA><COLLECTION>
+    <VOUCHER VCHTYPE="Receipt" ACTION="Create">
+      <DATE>20260715</DATE>
+      <VOUCHERTYPENAME>Receipt</VOUCHERTYPENAME>
+      <VOUCHERNUMBER>RCP-001</VOUCHERNUMBER>
+      <PARTYLEDGERNAME>Customer A</PARTYLEDGERNAME>
+      <NARRATION>Receipt sample</NARRATION>
+      <ALLLEDGERENTRIES.LIST>
+        <LEDGERNAME>Bank A</LEDGERNAME>
+        <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+        <AMOUNT>1250.00</AMOUNT>
+        <BANKALLOCATIONS.LIST>
+          <DATE>20260715</DATE>
+          <NAME>UTR-001</NAME>
+          <TRANSACTIONTYPE>Inter Bank Transfer</TRANSACTIONTYPE>
+          <AMOUNT>1250.00</AMOUNT>
+        </BANKALLOCATIONS.LIST>
+      </ALLLEDGERENTRIES.LIST>
+      <ALLLEDGERENTRIES.LIST>
+        <LEDGERNAME>Customer A</LEDGERNAME>
+        <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+        <AMOUNT>-1250.00</AMOUNT>
+        <BILLALLOCATIONS.LIST>
+          <NAME>INV-001</NAME>
+          <BILLTYPE>Agst Ref</BILLTYPE>
+          <AMOUNT>-1250.00</AMOUNT>
+        </BILLALLOCATIONS.LIST>
+      </ALLLEDGERENTRIES.LIST>
+    </VOUCHER>
+  </COLLECTION></DATA></BODY>
+</ENVELOPE>
+`;
+
+// Every AMOUNT here has a different value, so a value landing under the wrong
+// parent is caught. PERSISTEDVIEW is an unknown child.
+export const SALES_INVOICE = `<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE><BODY><DATA><COLLECTION>
+  <VOUCHER VCHTYPE="Sales" ACTION="Create">
+    <DATE>20260716</DATE>
+    <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>
+    <VOUCHERNUMBER>SAL-001</VOUCHERNUMBER>
+    <PARTYLEDGERNAME>Customer A</PARTYLEDGERNAME>
+    <PERSISTEDVIEW>Invoice Voucher View</PERSISTEDVIEW>
+    <LEDGERENTRIES.LIST>
+      <LEDGERNAME>Customer A</LEDGERNAME>
+      <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+      <AMOUNT>-118.00</AMOUNT>
+      <BILLALLOCATIONS.LIST>
+        <NAME>SAL-001</NAME>
+        <BILLTYPE>New Ref</BILLTYPE>
+        <AMOUNT>-117.99</AMOUNT>
+      </BILLALLOCATIONS.LIST>
+    </LEDGERENTRIES.LIST>
+    <LEDGERENTRIES.LIST>
+      <LEDGERNAME>Output CGST</LEDGERNAME>
+      <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+      <AMOUNT>9.00</AMOUNT>
+      <RATEDETAILS.LIST>
+        <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+        <GSTRATE>9</GSTRATE>
+      </RATEDETAILS.LIST>
+    </LEDGERENTRIES.LIST>
+    <LEDGERENTRIES.LIST>
+      <LEDGERNAME>Output SGST</LEDGERNAME>
+      <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+      <AMOUNT>9.00</AMOUNT>
+    </LEDGERENTRIES.LIST>
+    <ALLINVENTORYENTRIES.LIST>
+      <STOCKITEMNAME>Item A</STOCKITEMNAME>
+      <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+      <ACTUALQTY>2 PCS</ACTUALQTY>
+      <BILLEDQTY>2 PCS</BILLEDQTY>
+      <RATE>50.00/PCS</RATE>
+      <AMOUNT>100.00</AMOUNT>
+      <BATCHALLOCATIONS.LIST>
+        <GODOWNNAME>Main Location</GODOWNNAME>
+        <BATCHNAME>Primary Batch</BATCHNAME>
+        <ACTUALQTY>2 PCS</ACTUALQTY>
+        <BILLEDQTY>2 PCS</BILLEDQTY>
+        <AMOUNT>100.01</AMOUNT>
+      </BATCHALLOCATIONS.LIST>
+      <ACCOUNTINGALLOCATIONS.LIST>
+        <LEDGERNAME>Sales A</LEDGERNAME>
+        <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+        <AMOUNT>100.02</AMOUNT>
+        <RATEDETAILS.LIST>
+          <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+          <GSTRATE>9</GSTRATE>
+        </RATEDETAILS.LIST>
+        <RATEDETAILS.LIST>
+          <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+          <GSTRATE>9</GSTRATE>
+        </RATEDETAILS.LIST>
+      </ACCOUNTINGALLOCATIONS.LIST>
+    </ALLINVENTORYENTRIES.LIST>
+  </VOUCHER>
+</COLLECTION></DATA></BODY></ENVELOPE>
+`;
+
+export const TALLY_ERROR_RESPONSE = `<?xml version="1.0" encoding="UTF-8"?>
+<RESPONSE>
+  <CREATED>0</CREATED>
+  <ALTERED>0</ALTERED>
+  <DELETED>0</DELETED>
+  <IGNORED>1</IGNORED>
+  <ERRORS>1</ERRORS>
+  <LINEERROR>Ledger does not exist</LINEERROR>
+</RESPONSE>
+`;
+
+export const EMPTY_COLLECTION = `<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE>
+  <HEADER><VERSION>1</VERSION><STATUS>1</STATUS></HEADER>
+  <BODY><DATA><COLLECTION></COLLECTION></DATA></BODY>
+</ENVELOPE>
+`;
+
+const JOURNAL_UTF16_TEXT = `<?xml version="1.0" encoding="UTF-16"?>
+<ENVELOPE><BODY><DATA><COLLECTION>
+  <VOUCHER VCHTYPE="Journal" ACTION="Create">
+    <DATE>20260717</DATE>
+    <VOUCHERTYPENAME>Journal</VOUCHERTYPENAME>
+    <VOUCHERNUMBER>JRN-UTF16</VOUCHERNUMBER>
+    <NARRATION>Control reference &#4; in UTF-16 input</NARRATION>
+    <ALLLEDGERENTRIES.LIST>
+      <LEDGERNAME>Debit A</LEDGERNAME>
+      <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+      <AMOUNT>-75.50</AMOUNT>
+    </ALLLEDGERENTRIES.LIST>
+    <ALLLEDGERENTRIES.LIST>
+      <LEDGERNAME>Credit A</LEDGERNAME>
+      <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+      <AMOUNT>75.50</AMOUNT>
+    </ALLLEDGERENTRIES.LIST>
+  </VOUCHER>
+</COLLECTION></DATA></BODY></ENVELOPE>
+`;
+
+/** UTF-16LE with BOM (FF FE), containing the illegal reference &#4;. */
+export function journalUtf16Le(): Buffer {
+  return Buffer.concat([Buffer.from([0xff, 0xfe]), Buffer.from(JOURNAL_UTF16_TEXT, "utf16le")]);
+}
+
+/** UTF-16BE with BOM (FE FF), same content. */
+export function journalUtf16Be(): Buffer {
+  return Buffer.concat([Buffer.from([0xfe, 0xff]), Buffer.from(JOURNAL_UTF16_TEXT, "utf16le").swap16()]);
+}
+
+/** UTF-8 with BOM (EF BB BF). */
+export function paymentUtf8Bom(): Buffer {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE><BODY><DATA><COLLECTION>
+  <VOUCHER VCHTYPE="Payment" ACTION="Create">
+    <DATE>20260718</DATE>
+    <VOUCHERTYPENAME>Payment</VOUCHERTYPENAME>
+    <VOUCHERNUMBER>PAY-BOM</VOUCHERNUMBER>
+    <NARRATION>Café ₹ payment</NARRATION>
+    <ALLLEDGERENTRIES.LIST>
+      <LEDGERNAME>Expense A</LEDGERNAME>
+      <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+      <AMOUNT>-42.10</AMOUNT>
+    </ALLLEDGERENTRIES.LIST>
+    <ALLLEDGERENTRIES.LIST>
+      <LEDGERNAME>Cash A</LEDGERNAME>
+      <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+      <AMOUNT>42.10</AMOUNT>
+    </ALLLEDGERENTRIES.LIST>
+  </VOUCHER>
+</COLLECTION></DATA></BODY></ENVELOPE>
+`;
+  return Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(xml, "utf8")]);
+}
+
+/** Wraps voucher XML in the voucher-export envelope. */
+export function envelope(collectionInner: string): string {
+  return `<ENVELOPE><BODY><DATA><COLLECTION>${collectionInner}</COLLECTION></DATA></BODY></ENVELOPE>`;
+}
+
+export function response(inner: string): string {
+  return `<RESPONSE>${inner}</RESPONSE>`;
+}
